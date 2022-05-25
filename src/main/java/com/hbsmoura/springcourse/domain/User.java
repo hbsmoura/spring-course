@@ -3,6 +3,8 @@ package com.hbsmoura.springcourse.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hbsmoura.springcourse.domain.enums.Role;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -14,6 +16,7 @@ public class User {
 	private String email;
 	private String password;
 	
+	private Role role;
 	private List<Request> requests = new ArrayList<>();
 	private List<RequestStage> stages = new ArrayList<>();
 }
