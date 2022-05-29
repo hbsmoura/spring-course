@@ -17,8 +17,10 @@ import com.hbsmoura.springcourse.domain.enums.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "user")
 public class User implements Serializable{

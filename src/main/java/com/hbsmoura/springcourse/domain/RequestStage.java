@@ -19,8 +19,10 @@ import com.hbsmoura.springcourse.domain.enums.RequestState;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class RequestStage implements Serializable{
