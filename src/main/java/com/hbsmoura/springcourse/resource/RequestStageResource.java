@@ -31,8 +31,4 @@ public class RequestStageResource {
 		RequestStage stage = requestStageService.getById(id);
 		return ResponseEntity.ok(stage);
 	}
-	
-	//save
-	//get by id
-	//list by request id
 }
