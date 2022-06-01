@@ -37,7 +37,9 @@ public class UserResource {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<User> update(@PathVariable(name = "id") Long id, @RequestBody User user) {
+	public ResponseEntity<User> update(
+			@PathVariable(name = "id") Long id,
+			@RequestBody User user) {
 		user.setId(id);
 		User updated = userService.save(user);
 		return ResponseEntity.ok(updated);
@@ -51,8 +53,8 @@ public class UserResource {
 	
 	@GetMapping
 	public ResponseEntity<PageModel<User>> list(
-			@RequestParam("page") int page,
-			@RequestParam("size") int size){
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size){
 		PageRequestModel pr = new PageRequestModel(page, size);
 		PageModel<User> pm = userService.listOnLazyModel(pr);
 		return ResponseEntity.ok(pm);
@@ -67,8 +69,8 @@ public class UserResource {
 	@GetMapping("/{id}/requests")
 	public ResponseEntity<PageModel<Request>> listRequestsById(
 			@PathVariable(name = "id") Long id,
-			@RequestParam("page") int page,
-			@RequestParam("size") int size){
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size){
 		
 		PageRequestModel pr = new PageRequestModel(page, size);
 		PageModel<Request> pm = requestService.listByOwnerIdOnLazyModel(id, pr);
