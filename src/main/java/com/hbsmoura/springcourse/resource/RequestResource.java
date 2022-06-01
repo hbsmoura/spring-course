@@ -1,7 +1,5 @@
 package com.hbsmoura.springcourse.resource;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hbsmoura.springcourse.domain.Request;
 import com.hbsmoura.springcourse.domain.RequestStage;
+import com.hbsmoura.springcourse.model.PageModel;
+import com.hbsmoura.springcourse.model.PageRequestModel;
 import com.hbsmoura.springcourse.service.RequestService;
 import com.hbsmoura.springcourse.service.RequestStageService;
 
@@ -48,14 +49,20 @@ public class RequestResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Request>> list() {
-		List<Request> list = requestService.list();
-		return ResponseEntity.ok(list);
+	public ResponseEntity<PageModel<Request>> list(
+			@RequestParam("page") int page, @RequestParam("size") int size) {
+		PageRequestModel pr = new PageRequestModel(page, size);
+		PageModel<Request> pm = requestService.listOnLazyModel(pr);
+		return ResponseEntity.ok(pm);
 	}
 	
 	@GetMapping("{id}/stages")
-	public ResponseEntity<List<RequestStage>> listStagesById(@PathVariable(name = "id") Long id){
-		List<RequestStage> list = requestStageService.listRequestById(id);
-		return ResponseEntity.ok(list);
+	public ResponseEntity<PageModel<RequestStage>> listStagesById(
+			@PathVariable(name = "id") Long id,
+			@RequestParam("page") int page,
+			@RequestParam("size") int size){
+		PageRequestModel pr = new PageRequestModel(page, size);
+		PageModel<RequestStage> pm = requestStageService.listByRequestId(id, pr);
+		return ResponseEntity.ok(pm);
 	}
 }
