@@ -65,4 +65,12 @@ public class UserRepositoryTests {
 		
 		assertThat(loggedUser.getId()).isEqualTo(1L);
 	}
+	
+	@Test
+	@Order(6)
+	public void updateRoleTest() {
+		int affected = userRepository.updateRole(2L, Role.ADMINISTRATOR);
+		
+		assertThat(affected).isEqualTo(1);
+	}
 }

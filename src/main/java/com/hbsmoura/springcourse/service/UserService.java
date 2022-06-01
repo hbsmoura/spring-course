@@ -60,4 +60,8 @@ public class UserService {
 		return result.get();
 	}
 	
+	public int updateRole(User user) {
+		return userRepository.updateRole(user.getId(), user.getRole());
+	}
+	
 }
