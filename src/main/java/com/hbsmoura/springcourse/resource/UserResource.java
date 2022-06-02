@@ -1,5 +1,7 @@
 package com.hbsmoura.springcourse.resource;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hbsmoura.springcourse.domain.Request;
 import com.hbsmoura.springcourse.domain.User;
 import com.hbsmoura.springcourse.dto.UserLoginDTO;
+import com.hbsmoura.springcourse.dto.UserSaveDTO;
+import com.hbsmoura.springcourse.dto.UserUpdateDTO;
 import com.hbsmoura.springcourse.dto.UserUpdateRoleDTO;
 import com.hbsmoura.springcourse.model.PageModel;
 import com.hbsmoura.springcourse.model.PageRequestModel;
@@ -33,7 +37,8 @@ public class UserResource {
 	private RequestService requestService;
 	
 	@PostMapping
-	public ResponseEntity<User> save(@RequestBody User user) {
+	public ResponseEntity<User> save(@RequestBody @Valid UserSaveDTO userDTO) {
+		User user = userDTO.turnIntoUser();
 		User created = userService.save(user);
 		return ResponseEntity.status(HttpStatus.CREATED).body(created);
 	}
@@ -41,7 +46,8 @@ public class UserResource {
 	@PutMapping("/{id}")
 	public ResponseEntity<User> update(
 			@PathVariable(name = "id") Long id,
-			@RequestBody User user) {
+			@RequestBody @Valid UserUpdateDTO userDTO) {
+		User user = userDTO.turnIntoUser();
 		user.setId(id);
 		User updated = userService.save(user);
 		return ResponseEntity.ok(updated);
@@ -63,7 +69,7 @@ public class UserResource {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<User> login(@RequestBody UserLoginDTO user) {
+	public ResponseEntity<User> login(@RequestBody @Valid UserLoginDTO user) {
 		User logged = userService.login(user.getEmail(), user.getPassword());
 		return ResponseEntity.ok(logged);
 	}
@@ -83,7 +89,7 @@ public class UserResource {
 	@PatchMapping("/role/{id}")
 	public ResponseEntity<?> updateRole(
 			@PathVariable(name = "id") Long id,
-			@RequestBody UserUpdateRoleDTO userDTO){
+			@RequestBody @Valid UserUpdateRoleDTO userDTO){
 		User user = new User();
 		user.setId(id);
 		user.setRole(userDTO.getRole());
