@@ -18,7 +18,7 @@ import lombok.Data;
 @Data
 public class UserSaveDTO {
 
-	@NotBlank
+	@NotBlank(message = "Name must not be blank")
 	private String name;
 	
 	@Email
@@ -27,7 +27,7 @@ public class UserSaveDTO {
 	@Size(min = 7, max = 99, message = "Password must have between 7 and 99 characters")
 	private String password;
 	
-	@NotNull
+	@NotNull(message = "Role required")
 	private Role role;
 	
 	private List<Request> requests = new ArrayList<>();
