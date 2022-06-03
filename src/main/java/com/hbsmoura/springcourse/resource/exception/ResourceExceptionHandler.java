@@ -1,6 +1,8 @@
 package com.hbsmoura.springcourse.resource.exception;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,8 +27,10 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		String message = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
-		APIError error = new APIError(status.value(), message, new Date());
-		return ResponseEntity.status(status).body(error);
+		List<String> list = new ArrayList<>();
+		ex.getBindingResult().getAllErrors().forEach(error -> list.add(error.getDefaultMessage()));		
+		
+		APIErrorList apiErrorList = new APIErrorList(status.value(), "Validation failed", new Date(), list);
+		return ResponseEntity.status(status).body(apiErrorList);
 	}
 }
