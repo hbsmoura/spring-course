@@ -85,16 +85,13 @@ public class UserResource {
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestBody @Valid UserLoginDTO user) {
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
-		
 		Authentication auth = authManager.authenticate(token);
-		
 		SecurityContextHolder.getContext().setAuthentication(auth);
 		
 		org.springframework.security.core.userdetails.User userSpring =
 				(org.springframework.security.core.userdetails.User) auth.getPrincipal();
 		
 		String email = userSpring.getUsername();
-		
 		List<String> roles = userSpring.getAuthorities()
 										.stream()
 										.map(authority -> authority.getAuthority())

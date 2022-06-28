@@ -18,11 +18,11 @@ public class JWTManager {
 		calendar.add(Calendar.DAY_OF_MONTH, SecurityConstants.JWT_EXP_DAYS);
 		
 		String jwt = Jwts.builder()
-						.setSubject(email)
-						.setExpiration(calendar.getTime())
-						.claim(SecurityConstants.JWT_ROLE_KEY, roles)
-						.signWith(SignatureAlgorithm.HS512, SecurityConstants.API_KEY.getBytes())
-						.compact();
+						 .setSubject(email)
+						 .setExpiration(calendar.getTime())
+						 .claim(SecurityConstants.JWT_ROLE_KEY, roles)
+						 .signWith(SignatureAlgorithm.HS512, SecurityConstants.API_KEY.getBytes())
+						 .compact();
 		
 		return jwt;
 	}
